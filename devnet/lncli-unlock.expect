@@ -1,0 +1,19 @@
+#!/usr/bin/env expect
+
+# Adapted from https://www.thegeekstuff.com/2010/10/expect-examples/
+# it takes two argument: lnd name and a password
+# it launches `lncli-<number>.sh unlock`
+# and enters password
+
+set timeout 2
+
+set lnd_name [lindex $argv 0]
+
+set password [lindex $argv 1]
+
+spawn "./lncli-$lnd_name.sh" unlock
+
+expect "Input wallet password:"
+send "$password\r";
+
+interact

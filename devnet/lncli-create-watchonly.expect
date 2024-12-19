@@ -1,0 +1,35 @@
+#!/usr/bin/env expect
+
+# Adapted from https://www.thegeekstuff.com/2010/10/expect-examples/
+# it takes three arguments: lnd name, a password, a JSON file with accounts(exported `xpub`s of the wallet)
+# it launches `lncli-<name>.sh create` 
+# enters password
+# enters password confirmation
+# enters default wallet birthday unix timestamp
+# enters default address look-ahead used to scan for used keys
+
+
+set timeout 2
+
+set lnd_name [lindex $argv 0]
+
+set password [lindex $argv 1]
+
+set accounts_file [lindex $argv 2]
+
+spawn "./lncli-$lnd_name.sh" createwatchonly "$accounts_file"
+
+expect "Input wallet password:"
+send "$password\r";
+
+expect "Confirm password:"
+send "$password\r";
+
+expect "Input an optional wallet birthday unix timestamp of first block to start scanning from (default 0):"
+send "\r"
+
+
+expect "Input an optional address look-ahead used to scan for used keys (default 2500):"
+send "\r"
+
+interact

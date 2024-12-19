@@ -1,0 +1,38 @@
+#!/usr/bin/env expect
+
+# Adapted from https://www.thegeekstuff.com/2010/10/expect-examples/
+# it takes three arguments: lnd name, a password, a seed mnemonic
+# it launches `lncli-<number>.sh create` 
+# enters password
+# enters seed
+
+
+set timeout 2
+
+set lnd_name [lindex $argv 0]
+
+set password [lindex $argv 1]
+
+set seed [lindex $argv 2]
+
+spawn "./lncli-$lnd_name.sh" create
+
+expect "Input wallet password:"
+send "$password\r";
+
+expect "Confirm password:"
+send "$password\r";
+
+expect "or 'n' to create a new seed (Enter y/x/n):"
+send "y\r"
+
+expect "Input your 24-word mnemonic separated by spaces:"
+send "$seed\r"
+
+expect "Input your cipher seed passphrase (press enter if your seed doesn't have a passphrase):"
+send "\r"
+
+expect "Input an optional address look-ahead used to scan for used keys (default 2500):"
+send "\r"
+
+interact
